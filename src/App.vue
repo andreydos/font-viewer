@@ -1,28 +1,52 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <input type="text" v-model="text">
+    <div v-for="(font, i) in fonts" :key="font.cssClass" class="block">
+      <p><span class="mr-8">{{i + 1}}.</span><span :class="font.cssClass">{{text}}</span></p>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      text: '',
+      fonts: [
+        {
+          cssClass: 'font-1',
+          italic: true,
+          thin: true
+        },
+        {
+          cssClass: 'font-2',
+          italic: true,
+          thin: true
+        }
+      ]
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 10px;
+}
+
+.mr-8 {
+  margin-right: 8px;
+}
+
+.font-1 {
+  font-family: "Arial Black";
+}
+
+.font-2 {
+  font-family: Monospaced;
 }
 </style>
