@@ -5,13 +5,13 @@
         <label for="input">Введите текст гравировки:</label>
         <input id="input" type="text" v-model="text" placeholder="Печатайте текст здесь">
       </div>
-      <div class="logo">
+      <div class="logo" @click="copyTextToClipboard">
         <img src="/img/logo.png" alt="GODO" width="50">
       </div>
     </div>
 
     <ul>
-      <li v-for="(font, i) in 30" :key="i"><span class="number">{{i + 1}}.</span><span :class="`font${i + 1}`">{{text}}</span></li>
+      <li v-for="(font, i) in 30" :key="i"><span @click="onFontNumberClick(i + 1)" class="number">{{i + 1}}.</span><span :class="`font${i + 1}`">{{text}}</span></li>
     </ul>
   </div>
 </template>
@@ -22,6 +22,66 @@ export default {
   data() {
     return {
       text: '',
+      lastClickTs: Date.now(),
+      fontNames: [
+        "Arial",
+        "Monotype Corsiva",
+        "Cassandra",
+        "Medieval English Normal",
+        "Carolina",
+        "Menuet script",
+        "Avalon Medium",
+        "Wolfgang Amadeus Mozart",
+        "Still Time Cyr",
+        "PFDaVinciScriptPro-Regular",
+        "New Record",
+        "Parnas Deco",
+        "Bickham Script One",
+        "Rosa Marena",
+        "DS Arabic",
+        "Nadejda Bold",
+        "Ariadna script",
+        "Adana script",
+        "Teddy Bear",
+        "JakobTT",
+        "Mistral",
+        "RoscherkDL",
+        "VellgishFont",
+        "Topaz",
+        "Lobster",
+        "Cyberfall_Cyrillic",
+        "TrueGritC",
+        "Deutsch Gothic",
+        "Impact",
+        "a_BosaNovaDcFr",
+      ]
+    }
+  },
+  mounted() {
+    const textQuery = location.search.split('?text=')[1];
+    if (typeof textQuery === 'string') {
+      this.text = decodeURI(textQuery);
+    }
+  },
+  methods: {
+    onFontNumberClick(i) {
+      const now = Date.now();
+      if (now - this.lastClickTs < 500) {
+        this.showFontName(i)
+      }
+      this.lastClickTs = now;
+    },
+    showFontName(i) {
+      this.$copyText(`${i}. ${this.fontNames[i - 1]}`).then(function () {}, function (e) {
+        console.log(e);
+      });
+    },
+    copyTextToClipboard() {
+      if (this.text) {
+        this.$copyText(location.origin + `?text=${this.text}`).then(function () {}, function (e) {
+          console.log(e);
+        });
+      }
     }
   }
 }
@@ -224,6 +284,7 @@ ul li span {
 
 .font1{
   height: auto;
+  font-family: Arial;
   font-size: 30px;
 }
 
