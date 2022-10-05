@@ -2,8 +2,8 @@
   <div id="app">
     <div class="header">
       <div>
-        <label for="input">Введите текст гравировки:</label>
-        <input id="input" type="text" v-model="text" placeholder="Печатайте текст здесь">
+        <label for="input">Введіть текст гравіювання:</label>
+        <input id="input" type="text" v-model="text" placeholder="Друкуйте текст тут">
       </div>
       <div class="logo" @click="copyTextToClipboard">
         <img src="/img/logo.png" alt="GODO" width="50">
@@ -72,7 +72,9 @@ export default {
       this.lastClickTs = now;
     },
     showFontName(i) {
-      this.$copyText(`${i}. ${this.fontNames[i - 1]}`).then(function () {}, function (e) {
+      const text = `${i}. ${this.fontNames[i - 1]}`;
+      alert(text);
+      this.$copyText(text).then(function () {}, function (e) {
         console.log(e);
       });
     },
